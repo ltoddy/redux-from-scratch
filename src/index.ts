@@ -13,6 +13,8 @@ export type Action = {
   payload?: any,
 };
 
+export type Reducer = (state: ReduxState, action: Action) => ReduxState;
+
 export type DispatchFunction = (action: Action) => void;
 
 export type Subscriber = (currentState: ReduxState, prevState: ReduxState) => void;
@@ -30,7 +32,7 @@ export type ReduxStore = {
   getState: GetStateFunction,
 };
 
-export function createStore(reducer: any): ReduxStore {
+export function createStore(reducer: Reducer): ReduxStore {
   let currentState: ReduxState;
   const subscribers: Array<Subscriber> = [];
 
@@ -60,5 +62,18 @@ export function createStore(reducer: any): ReduxStore {
     subscribe,
     unsubscribe,
     getState,
+  };
+}
+
+type Reducers = { [key: string]: Reducer };
+
+export function combineReducers(reducers: Reducers): Reducer {
+  return function (state: ReduxState = {}, action: Action): ReduxState {
+    const ret: ReduxState = {};
+    Object.keys(reducers).forEach((key: string) => {
+      const reducer = reducers[key];
+      ret[key] = reducer(state[key], action);
+    });
+    return ret;
   };
 }
