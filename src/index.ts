@@ -6,24 +6,24 @@ function cloneDeep(obj: any): any {
   return JSON.parse(JSON.stringify(obj));
 }
 
-type ReduxState = any;
+export type ReduxState = any;
 
-type Action = {
+export type Action = {
   type: string,
   payload?: any,
 };
 
-type DispatchFunction = (action: Action) => void;
+export type DispatchFunction = (action: Action) => void;
 
-type Subscriber = (currentState: ReduxState, prevState: ReduxState) => void;
+export type Subscriber = (currentState: ReduxState, prevState: ReduxState) => void;
 
-type SubscribeFunction = (subscriber: Subscriber) => void;
+export type SubscribeFunction = (subscriber: Subscriber) => void;
 
-type UnsubscribeFunction = (subscriber: Subscriber) => void;
+export type UnsubscribeFunction = (subscriber: Subscriber) => void;
 
-type GetStateFunction = () => ReduxState;
+export type GetStateFunction = () => ReduxState;
 
-type ReduxStore = {
+export type ReduxStore = {
   dispatch: DispatchFunction,
   subscribe: SubscribeFunction,
   unsubscribe: UnsubscribeFunction,
